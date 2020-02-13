@@ -21,14 +21,14 @@ def count_vote(conn, vote):
 	finally:
 		conn.commit()
 
-def get_votes(c):
-	try:
-		c.execute(""" SELECT yes, no FROM polls """)
-		for row in c.fetchall():
-			print ("YES counts: " + str(row[0]))
-			print ("NO counts: " + str(row[1]))
-	except Error as e:
-		print(e)
+#def get_votes(c):
+#	try:
+#		c.execute(""" SELECT yes, no FROM polls """)
+#		for row in c.fetchall():
+#			print ("YES counts: " + str(row[0]))
+#			print ("NO counts: " + str(row[1]))
+#	except Error as e:
+#		print(e)
 
 
 def init_vote(c):
@@ -77,13 +77,11 @@ def get_votes():
 		c = conn.cursor()
 		try:
 			c.execute(""" SELECT yes, no FROM polls WHERE box_id="""+str(box_id)+""" AND poll_id="""+str(vote_id))
-			print ("BOX-ID: " + str(box_id))
-			print ("VOTE-ID: " + str(vote_id))
 			for row in c.fetchall():
-				print ("YES counts: " + str(row[0]))
 				results.append(row[0])
-				print ("NO counts: " + str(row[1]))
 				results.append(row[1])
+				print ("GET VOTES: [BOX-ID]: " + str(box_id) + " [VOTE-ID]: "+ str(vote_id)+" [YES]: "+ str(row[0])+" [NO]: "+str(row[1]))
+
 		except Error as e:
 			print(e)
 
