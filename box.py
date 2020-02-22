@@ -137,23 +137,32 @@ GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
 GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulle$
 GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-clock = 1
+# use LEDs as visual feedback
+GPIO.setup(38, GPIO.OUT)
+GPIO.setup(40, GPIO.OUT)
 
+clock = 1
 while True: # Run forever
 	if GPIO.input(10) == GPIO.LOW:
 		print("Button YES was pushed!")
+		GPIO.output(38, GPIO.HIGH)
 		count_vote(conn, True)
 		time.sleep(.1)
 		conn.commit()
-		t = threading.Thread(name='child procs', target=sync_votes)
-		t.start()
+		#t = threading.Thread(name='child procs', target=sync_votes)
+		#t.start()
+		sync_votes()
+		GPIO.output(38, GPIO.LOW)
 	if GPIO.input(12) == GPIO.LOW:
 		print("Button NO was pushed!")
+		GPIO.output(40, GPIO.HIGH)
 		count_vote(conn, False)
 		time.sleep(.1)
 		conn.commit()
-		t = threading.Thread(name='child procs', target=sync_votes)
-		t.start()
+		#t = threading.Thread(name='child procs', target=sync_votes)
+		#t.start()
+		sync_votes()
+		GPIO.output(40, GPIO.LOW)
 		# if ((clock % 5) == 0):
 		#conn.commit()
 		# if ((clock % 5) == 0):
