@@ -8,7 +8,8 @@ The project uses a simple MySQL database to store the votes over a predefined pe
 ## UrbanAnt
 
 ### Casing
-The casing consists of laser cut acryl and 3D printed parts, some buttons, cables and LEDs for the interior. It provides enough space for the Raspberry Pi Zero WH, the UMTS module and a batterie.
+The casing consists of laser cut acryl and 3D printed parts, some buttons, cables and LEDs for the interior. It provides enough space for the Raspberry Pi Zero WH, the UMTS module and a battery.
+The case consists of laser cut and 3D-printed parts. The necessary files are included in the folders named correspondingly. 
 
 ## Programming
 The control programm is written for Python 3 running on Raspbian Buster on the Rasperry Pi. All functionalities can be found in the *box.py* which runs as a service after powering up the device.
