@@ -6,35 +6,27 @@ import threading
 
 
 box_id = 1
+vote_id = 2
 
 ### local counting
 def count_vote(conn, vote):
 	try:
 		c = conn.cursor()
 		if vote:
-			c.execute(""" UPDATE polls SET yes = yes + 1 WHERE poll_id='1'""")
+			c.execute(""" UPDATE polls SET yes = yes + 1 WHERE poll_id=""" + str(vote_id))
 		else:
-			c.execute(""" UPDATE polls SET no = no + 1 WHERE poll_id='1'""")
+			c.execute(""" UPDATE polls SET no = no + 1 WHERE poll_id="""+str(vote_id))
 		c.execute(""" UPDATE polls SET last_update = datetime('now') """)
 	except Error as e:
 		print(e)
 	finally:
 		conn.commit()
 
-#def get_votes(c):
-#	try:
-#		c.execute(""" SELECT yes, no FROM polls """)
-#		for row in c.fetchall():
-#			print ("YES counts: " + str(row[0]))
-#			print ("NO counts: " + str(row[1]))
-#	except Error as e:
-#		print(e)
 
-
-def init_vote(c):
-	vote_id = 1
+def init_vote(conn):
+	c = conn.cursor()
 	try:
-		c.execute(""" INSERT INTO polls (box_id, poll_id, yes, no, last_update) VALUES("""+str(box_id)+""","""+str(vote_id)+""",0,0,datetime('now')); """)
+		c.execute(" INSERT INTO polls (box_id, poll_id, yes, no, last_update) VALUES( " + str(box_id)+"," + str(vote_id)+",0,0,datetime('now')); ")
 	except Error as e:
 		print(e)
 
@@ -64,10 +56,8 @@ def connect_db():
 
 
 
-### remote counting
-vote_id = 1
 
-
+# remote counting
 def get_votes():
 	""" create a database connection to a SQLite database """
 	conn = None
@@ -130,7 +120,7 @@ conn = connect_db()
 #count_vote(conn, button)
 #c = conn.cursor()
 #get_votes(c)
-
+init_vote(conn)
 
 GPIO.setwarnings(False) # Ignore warning for now
 GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
